@@ -77,12 +77,12 @@ module top_tb;
           set_byte_a32((32'(s2mm_addr) << LSB) + i, s2mm_data[i*8 +: 8]);
   end
   
-  // initial begin
-  //   $dumpfile("axi_tb_sys.vcd");
-  //   $dumpvars();
-  //   #2000us;
-  //   $finish;
-  // end
+initial begin
+   $dumpfile("top_tb.vcd");
+   $dumpvars();
+   #1us;
+   $finish;
+ end
 
   chandle mpv, cp;
   initial begin

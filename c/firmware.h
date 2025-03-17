@@ -132,7 +132,7 @@ extern EXT_C void dma_loopback(Memory_st *restrict mp, void *p_config) {
   set_config(p_config, A_START, 1);  // Start
   
   while (!(get_config(p_config, A_S2MM_DONE) && get_config(p_config, A_MM2S_DONE))) {
-    debug_printf("Waiting for DMA to finish \n");
+    //debug_printf("Waiting for DMA to finish \n");
   }
   
   flush_cache(mp->inp_arr, BYTES);  // force transfer to DDR, starting addr & length

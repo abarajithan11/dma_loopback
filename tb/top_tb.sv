@@ -52,7 +52,7 @@ module top_tb;
   import "DPI-C" context function void set_byte_a32 (int unsigned addr, byte data);
   import "DPI-C" context function chandle get_mp ();
   // import "DPI-C" context function void print_output (chandle mpv);
-  import "DPI-C" context function void dma_loopback(chandle mpv, chandle p_config);
+  import "DPI-C" context function bit dma_loopback(chandle mpv, chandle p_config);
 
 
   function automatic int get_config(chandle config_base, input int offset);
@@ -91,7 +91,7 @@ initial begin
     rstn = 1;
     mpv = get_mp();
     
-    dma_loopback(mpv, cp);
+    while (dma_loopback(mpv, cp))  @(posedge clk) #10ps;
 
     $finish;
   end

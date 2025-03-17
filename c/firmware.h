@@ -107,7 +107,13 @@ u32 addr_64to32 (void* addr){
 
 #endif
 
-extern EXT_C void dma_loopback(Memory_st *restrict mp, void *p_config) {
+extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
+
+#ifdef SIM
+  static char is_first_call = 1;
+  if (is_first_call)  is_first_call = 0;
+  else                goto DMA_WAIT;
+#endif
 
 #ifdef SIM
   FILE *fp;
@@ -130,12 +136,21 @@ extern EXT_C void dma_loopback(Memory_st *restrict mp, void *p_config) {
   set_config(p_config, A_S2MM_ADDR, addr_64to32(mem_phy.out_arr));
   set_config(p_config, A_MM2S_BYTES, sizeof(mem_phy.out_arr));
   set_config(p_config, A_START, 1);  // Start
-  
-  while (!(get_config(p_config, A_S2MM_DONE) && get_config(p_config, A_MM2S_DONE))) {
-    //debug_printf("Waiting for DMA to finish \n");
-  }
-  
-  flush_cache(mp->inp_arr, BYTES);  // force transfer to DDR, starting addr & length
+
+
+#ifdef SIM
+  DMA_WAIT:
+                // if sim return, so SV can pass time, and call again, which will jump to DMA_WAIT again
+                if (!(get_config(p_config, A_S2MM_DONE) && get_config(p_config, A_MM2S_DONE))) 
+                  return 1; 
+#else
+                flush_cache(mp->inp_arr, BYTES);  // force transfer to DDR, starting addr & length
+                while (!(get_config(p_config, A_S2MM_DONE) && get_config(p_config, A_MM2S_DONE))) {
+                  // in FPGA, wait for write done
+                }
+                usleep(0);
+#endif
+
 #ifdef SIM
   sprintf(f_path, "%s/output.bin", DATA_DIR);
   fp = fopen(f_path, "wb");

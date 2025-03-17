@@ -1,0 +1,2 @@
+set_property -name {xsim.elaborate.link.c} -value {D:/dma_loopback/c/sim.c --gcc_compile_options -ID:/dma_loopback/c/ --gcc_compile_options -DSIM} -objects [get_filesets sim_1]
+set_property -name {xsim.elaborate.xelab.more_options} -value {-svlib dpi} -objects [get_filesets sim_1]

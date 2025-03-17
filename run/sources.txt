@@ -1,0 +1,12 @@
+../../rtl/top.v
+../../rtl/dma_controller.sv
+../../rtl/ext/alex_axi_dma_rd.sv
+../../rtl/ext/alex_axi_dma_wr.sv
+../../rtl/ext/alex_axilite_ram.sv
+../../rtl/ext/alex_axilite_rd.sv
+../../rtl/ext/alex_axilite_wr.sv
+../../tb/top_ram.sv
+../../tb/top_tb.sv
+../../tb/ext/axi_addr.v
+../../tb/ext/skidbuffer.v
+../../tb/ext/zipcpu_axi2ram.v

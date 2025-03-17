@@ -65,9 +65,9 @@ module dma_controller #(
 
   always_comb begin 
     mm2s_addr  = cfg[A_MM2S_ADDR];
-    mm2s_user  = cfg[A_MM2S_TUSER];
+    mm2s_user  = AXIS_USER_WIDTH'(cfg[A_MM2S_TUSER]);
     mm2s_len   = cfg[A_MM2S_BYTES];
-    mm2s_valid = cfg[A_START] && s2mm_ready;
+    mm2s_valid = 1'(cfg[A_START]) && s2mm_ready;
     mm2s_done  = mm2s_status_valid && (mm2s_status_error == 4'b0);
     {mm2s_len, mm2s_addr} = mm2s_desc;
   end
@@ -80,7 +80,7 @@ module dma_controller #(
   always_comb begin 
     s2mm_addr  = cfg[A_S2MM_ADDR];
     s2mm_len   = cfg[A_S2MM_BYTES];
-    s2mm_valid = cfg[A_START] && mm2s_ready;
+    s2mm_valid = 1'(cfg[A_START]) && mm2s_ready;
     s2mm_done  = s2mm_status_valid && (s2mm_status_error == 4'b0);
     {s2mm_len, s2mm_addr} = s2mm_desc;
   end

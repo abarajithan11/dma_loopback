@@ -39,6 +39,12 @@ elab: vlog
 xsim: elab
 	cd $(BUILD_DIR) && xsim $(TB_MODULE) $(XSIM_FLAGS)
 
+build_verilator:
+	cd run && verilator --binary -j 0 -O3 --top $(TB_MODULE) -F sources.txt -I../ -CFLAGS -DSIM $(C_SOURCE) -CFLAGS -g --Mdir ./build
+
+veri: build_verilator
+	cd $(BUILD_DIR) && ./V$(TB_MODULE)
+
 # Clean build directory
 clean:
 	rm -rf $(BUILD_DIR)

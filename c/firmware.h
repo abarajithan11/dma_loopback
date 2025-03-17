@@ -108,6 +108,12 @@ u32 addr_64to32 (void* addr){
 #endif
 
 extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
+ 
+#ifdef SIM
+  FILE *fp;
+  char f_path [1000];
+  int bytes;
+#endif 
 
 #ifdef SIM
   static char is_first_call = 1;
@@ -116,13 +122,11 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
 #endif
 
 #ifdef SIM
-  FILE *fp;
-  char f_path [1000];
   sprintf(f_path, "%s/input.bin", DATA_DIR);
   fp = fopen(f_path, "rb");
   debug_printf("DEBUG: Reading from file %s \n", f_path);
   if(!fp) debug_printf("ERROR! File not found: %s \n", f_path);
-  int bytes = fread(mp->inp_arr, 1, BYTES, fp);
+  bytes = fread(mp->inp_arr, 1, BYTES, fp);
   fclose(fp);
 #endif
 
@@ -159,5 +163,5 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
   bytes = fwrite(mp->out_arr, 1, BYTES, fp);
   fclose(fp);
 #endif
-
+  return 0;
 }

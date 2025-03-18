@@ -4,8 +4,7 @@ TB_MODULE = top_tb
 BUILD_DIR = run/build
 DATA_DIR = $(BUILD_DIR)/data
 FULL_DATA_DIR = $(abspath $(DATA_DIR))
-INPUT_FILE = $(DATA_DIR)/input.bin
-C_SOURCE = ../../c/sim.c
+C_SOURCE = ../../c/firmware.c
 SOURCES_FILE = ../sources.txt
 XSIM_CFG = ../xsim_cfg.tcl
 
@@ -38,7 +37,7 @@ elab: vlog
 xsim: elab $(DATA_DIR)
 	cd $(BUILD_DIR) && xsim $(TB_MODULE) $(XSIM_FLAGS)
 
-build_verilator:
+build_verilator: $(BUILD_DIR)
 	cd run && verilator --binary -j 0 -O3 --top $(TB_MODULE) -F sources.txt -I../ -DBYTES=$(BYTES) -DDIR=$(FULL_DATA_DIR) -CFLAGS -DSIM -CFLAGS -DBYTES=$(BYTES) -CFLAGS -DDIR=$(FULL_DATA_DIR) $(C_SOURCE) -CFLAGS -g --Mdir ./build
 
 veri: build_verilator $(DATA_DIR)

@@ -38,8 +38,6 @@ jobs:
 
     - name: Verify Full Design
       run: |
-        pwd
-        ls
         export PATH=${HOME}/verilator/bin:$PATH
         make veri
 

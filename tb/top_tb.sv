@@ -83,7 +83,7 @@ module top_tb;
     $dumpfile("top_tb.vcd");
     $dumpvars();
     #1000us;
-    $finish;
+    $fatal(1, "Error: Timeout.");
   end
 
 

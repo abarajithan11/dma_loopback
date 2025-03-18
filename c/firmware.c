@@ -26,6 +26,8 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
     char f_path [1000];
     int bytes;
 
+    printf("DIR:%s", TO_STRING(DIR));
+
     WAIT_INIT(DMA_WAIT);
 
     sprintf(f_path, "%sinput.bin", TO_STRING(DIR));

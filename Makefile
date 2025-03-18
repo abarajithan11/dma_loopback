@@ -5,14 +5,15 @@ BUILD_DIR = run/build
 DATA_DIR = $(BUILD_DIR)/data
 FULL_DATA_DIR = $(abspath $(DATA_DIR))
 C_SOURCE = ../../c/firmware.c
-SOURCES_FILE = ../sources.txt
+SOURCES_FILE = sources.txt
 XSIM_CFG = ../xsim_cfg.tcl
 
 # Compiler options
-XSC_FLAGS = --gcc_compile_options -DSIM --gcc_compile_options -DBYTES=$(BYTES) --gcc_compile_options -DDIR$(DATA_DIR)
-XVLOG_FLAGS = -sv -d "DIR=%DIR%" -d "BYTES=%BYTES%" 
+XSC_FLAGS = --gcc_compile_options -DSIM --gcc_compile_options -DBYTES=$(BYTES) --gcc_compile_options -DDIR=$(FULL_DATA_DIR)
+XVLOG_FLAGS = -sv -d "DIR=$(FULL_DATA_DIR)" -d "BYTES=$(BYTES)" 
 XELAB_FLAGS = --snapshot $(TB_MODULE) -log elaborate.log --debug typical -sv_lib dpi
 XSIM_FLAGS = --tclbatch $(XSIM_CFG)
+VERI_FLAGS = --binary -j 0 -O3 -DBYTES=$(BYTES) -DDIR=$(FULL_DATA_DIR) -CFLAGS -DSIM -CFLAGS -DBYTES=$(BYTES) -CFLAGS -DDIR=$(FULL_DATA_DIR) -CFLAGS -g --Mdir ../$(BUILD_DIR)
 
 # Ensure the build directories exist
 $(BUILD_DIR):
@@ -22,12 +23,12 @@ $(DATA_DIR): | $(BUILD_DIR)
 	mkdir -p $(DATA_DIR)
 
 # Compile C source
-c:
+c: $(BUILD_DIR)
 	cd $(BUILD_DIR) && xsc $(C_SOURCE) $(XSC_FLAGS)
 
 # Run Verilog compilation
 vlog: c
-	cd $(BUILD_DIR) && xvlog -f $(SOURCES_FILE)  $(XVLOG_FLAGS)
+	cd $(BUILD_DIR) && xvlog -f ../$(SOURCES_FILE)  $(XVLOG_FLAGS)
 
 # Elaborate design
 elab: vlog
@@ -38,7 +39,7 @@ xsim: elab $(DATA_DIR)
 	cd $(BUILD_DIR) && xsim $(TB_MODULE) $(XSIM_FLAGS)
 
 build_verilator: $(BUILD_DIR)
-	cd run && verilator --binary -j 0 -O3 --top $(TB_MODULE) -F sources.txt -I../ -DBYTES=$(BYTES) -DDIR=$(FULL_DATA_DIR) -CFLAGS -DSIM -CFLAGS -DBYTES=$(BYTES) -CFLAGS -DDIR=$(FULL_DATA_DIR) $(C_SOURCE) -CFLAGS -g --Mdir ./build
+	cd run && verilator --top $(TB_MODULE) -F $(SOURCES_FILE) $(C_SOURCE) $(VERI_FLAGS)
 
 veri: build_verilator $(DATA_DIR)
 	cd $(BUILD_DIR) && ./V$(TB_MODULE)

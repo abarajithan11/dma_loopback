@@ -69,7 +69,7 @@ module dma_controller #(
     mm2s_len   = cfg[A_MM2S_BYTES];
     mm2s_valid = 1'(cfg[A_START]) && s2mm_ready;
     mm2s_done  = mm2s_status_valid && (mm2s_status_error == 4'b0);
-    {mm2s_len, mm2s_addr} = mm2s_desc;
+    mm2s_desc  = {mm2s_len, mm2s_addr};
   end
 
   // S2MM Controller
@@ -82,7 +82,7 @@ module dma_controller #(
     s2mm_len   = cfg[A_S2MM_BYTES];
     s2mm_valid = 1'(cfg[A_START]) && mm2s_ready;
     s2mm_done  = s2mm_status_valid && (s2mm_status_error == 4'b0);
-    {s2mm_len, s2mm_addr} = s2mm_desc;
+    s2mm_desc  = {s2mm_len, s2mm_addr};
   end
 
   always_ff @(posedge clk) // All cfg written in this always block
@@ -92,7 +92,7 @@ module dma_controller #(
         cfg[A_MM2S_DONE] <= 1;
       if (s2mm_done)
         cfg[A_S2MM_DONE] <= 1;
-      if (cfg[A_START][0]) 
+      if (cfg[A_START][0] && s2mm_ready && mm2s_ready) 
         cfg[A_START] <= 0; // written by PS after all config, stays high for only 1 clock
 
       if (reg_wr_en) // PS has priority in writing to registers

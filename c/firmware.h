@@ -1,7 +1,5 @@
-#define DATA_DIR "data"
 #define MEM_BASEADDR    0x20000000
 #define CONFIG_BASEADDR 0x30000000
-#define BYTES 1024
 
 #define A_START        0x0
 #define A_MM2S_DONE    0x1
@@ -45,6 +43,8 @@ typedef struct {
   #include <stdio.h>
   #define sim_fprintf fprintf
   #include <stdbool.h>
+  #define STRINGIFY(x) #x
+  #define TO_STRING(x) STRINGIFY(x)
 
   Memory_st mem_phy;
 	extern EXT_C u32 get_config(void*, u32);
@@ -122,7 +122,7 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
 #endif
 
 #ifdef SIM
-  sprintf(f_path, "%s/input.bin", DATA_DIR);
+  sprintf(f_path, "%sinput.bin", TO_STRING(DIR));
   fp = fopen(f_path, "rb");
   debug_printf("DEBUG: Reading from file %s \n", f_path);
   if(!fp) debug_printf("ERROR! File not found: %s \n", f_path);
@@ -138,7 +138,7 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
   set_config(p_config, A_MM2S_BYTES, sizeof(mem_phy.inp_arr));
   
   set_config(p_config, A_S2MM_ADDR, addr_64to32(mem_phy.out_arr));
-  set_config(p_config, A_MM2S_BYTES, sizeof(mem_phy.out_arr));
+  set_config(p_config, A_S2MM_BYTES, sizeof(mem_phy.out_arr));
   set_config(p_config, A_START, 1);  // Start
 
 
@@ -156,7 +156,7 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
 #endif
 
 #ifdef SIM
-  sprintf(f_path, "%s/output.bin", DATA_DIR);
+  sprintf(f_path, "%soutput.bin", TO_STRING(DIR));
   fp = fopen(f_path, "wb");
   debug_printf("DEBUG: Writing to file %s \n", f_path);
   if(!fp) debug_printf("ERROR! File not found: %s \n", f_path);

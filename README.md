@@ -35,7 +35,7 @@ cd run
 - Instantiate DMAs in `rtl/top.v` & connect to DMA controller
 - Update `tb/top_ram.sv` with more AXI2RAM instances
 - Update `tb/top_tb.sv` with more RAM ports and RAM read logic
-- Update `c/firmware.c` with more register writes
+- Update `c/firmware.h` with more register writes
 
 ### Adding a custom AXI Stream IP
 

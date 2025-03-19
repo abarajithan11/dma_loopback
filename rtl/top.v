@@ -150,10 +150,10 @@ wire [3:0]                              mm2s_status_error;
 wire                                    mm2s_status_valid;
 
 // Veriltor width mismatch bullshit
-wire [127:0] reg_wr_addr_ctrl_128 = (128'(reg_wr_addr)-128'(AXIL_BASE_ADDR) >> 2);
-wire [127:0] reg_rd_addr_ctrl_128 = (128'(reg_rd_addr)-128'(AXIL_BASE_ADDR) >> 2);
-wire [AXIL_ADDR_WIDTH-1:0] reg_wr_addr_ctrl = reg_wr_addr_ctrl_128[AXIL_ADDR_WIDTH-1:0];
-wire [AXIL_ADDR_WIDTH-1:0] reg_rd_addr_ctrl = reg_rd_addr_ctrl_128[AXIL_ADDR_WIDTH-1:0];
+localparam AXIL_ADDR_EXTRA = AXIL_ADDR_WIDTH - 32;
+wire [AXIL_ADDR_EXTRA -1:0] axil_addr_zeros = 0;
+wire [AXIL_ADDR_WIDTH-1:0] reg_wr_addr_ctrl = (reg_wr_addr-{axil_addr_zeros, AXIL_BASE_ADDR}) >> 2;
+wire [AXIL_ADDR_WIDTH-1:0] reg_rd_addr_ctrl = (reg_rd_addr-{axil_addr_zeros,AXIL_BASE_ADDR})  >> 2;
 
 
 

@@ -37,8 +37,6 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
     bytes = fread(mp->inp_arr, 1, BYTES, fp);
     fclose(fp);
   #endif
-
-  flush_cache(mp->inp_arr, BYTES);  // force transfer to DDR, starting addr & length
   
   // Start DMA
   set_config(p_config, A_MM2S_ADDR , addr_64to32(mem_phy.inp_arr));

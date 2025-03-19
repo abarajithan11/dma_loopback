@@ -106,7 +106,5 @@ u32 addr_64to32 (void* addr){
   // if FPGA, run a while loop
   #define WAIT(cond, LABEL) do { \
       while (cond) {} \
-      flush_cache(mp->inp_arr, BYTES);\
-      usleep(0); \
     } while(0)
 #endif

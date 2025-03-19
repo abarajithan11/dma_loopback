@@ -4,7 +4,7 @@ TB_MODULE = top_tb
 BUILD_DIR = run/build
 DATA_DIR = $(BUILD_DIR)/data
 FULL_DATA_DIR = $(abspath $(DATA_DIR))
-C_SOURCE = ../../c/firmware.c
+C_SOURCE = ../../c/sim.c
 SOURCES_FILE = sources.txt
 XSIM_CFG = ../xsim_cfg.tcl
 

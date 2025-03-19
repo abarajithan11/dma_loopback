@@ -36,16 +36,18 @@ int main()
 
   xil_printf("Hello! Config:%p, Mem:%p\n", p_config, p_mem);
 
-  for (int i = 0; i < BYTES; i++) 
+  for (int i = 0; i < BYTES; i++) {
     p_mem->inp_arr[i] = i;
-  flush_cache(mp->inp_arr, BYTES);
+  }
+  flush_cache(p_mem->inp_arr, BYTES);
   
   dma_loopback(p_mem, p_config);
-  
-  flush_cache(mp->out_arr, BYTES);
+
+  flush_cache(p_mem->out_arr, BYTES);
   usleep(0);
-  for (int i = 0; i < BYTES; i++) 
-    xil_printf("out_arr[%d]=%d", i, p_mem->out_arr[i]);
+  for (int i = 0; i < BYTES; i++) {
+    xil_printf("out_arr[%d]=%d\n", i, p_mem->out_arr[i]);
+  }
   
 
   cleanup_platform();

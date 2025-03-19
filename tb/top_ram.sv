@@ -11,7 +11,7 @@ module top_ram #(
                 AXIL_WIDTH        = 32,
                 AXIL_ADDR_WIDTH   = 40,
                 STRB_WIDTH        = 4,
-                AXIL_BASE_ADDR    = 32'h3000000,
+                AXIL_BASE_ADDR    = 32'hA0000000,
                 OPT_LOCK          = 1'b0,
                 OPT_LOCKID        = 1'b1,
                 OPT_LOWPOWER      = 1'b0,

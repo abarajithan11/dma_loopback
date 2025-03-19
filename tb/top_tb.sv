@@ -8,7 +8,7 @@ module top_tb;
               STRB_WIDTH          = 4,
               DATA_RD_WIDTH       = 32,
               AXI_WIDTH	          = 128,
-              AXI_ADDR_WIDTH	  = 32,
+              AXI_ADDR_WIDTH	    = 32,
               CLK_PERIOD          = 10,
               LSB                 = $clog2(AXI_WIDTH)-3;             
 

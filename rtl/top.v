@@ -12,7 +12,7 @@ module top #(
                 AXIL_WIDTH              = 32,
                 AXIL_ADDR_WIDTH         = 40,
                 STRB_WIDTH              = 4,
-                AXIL_BASE_ADDR          = 32'h3000000
+                AXIL_BASE_ADDR          = 32'hA0000000
 
 ) (
     // axilite interface for configuration
@@ -149,8 +149,9 @@ wire                                    mm2s_desc_tready;
 wire [3:0]                              mm2s_status_error;
 wire                                    mm2s_status_valid;
 
-wire [AXIL_ADDR_WIDTH-1:0] reg_wr_addr_ctrl = (reg_wr_addr-AXIL_ADDR_WIDTH'(AXIL_BASE_ADDR)) >> 2;
-wire [AXIL_ADDR_WIDTH-1:0] reg_rd_addr_ctrl = (reg_rd_addr-AXIL_ADDR_WIDTH'(AXIL_BASE_ADDR)) >> 2;
+wire [AXIL_ADDR_WIDTH-1:0] AXIL_BASE_ADDR_lw = AXIL_BASE_ADDR;
+wire [AXIL_ADDR_WIDTH-1:0] reg_wr_addr_ctrl = (reg_wr_addr-AXIL_BASE_ADDR_lw) >> 2;
+wire [AXIL_ADDR_WIDTH-1:0] reg_rd_addr_ctrl = (reg_rd_addr-AXIL_BASE_ADDR_lw) >> 2;
 
 
 

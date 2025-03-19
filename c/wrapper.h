@@ -38,11 +38,11 @@ typedef double   f64;
   #define sim_fprintf(...)
   #define mem_phy (*(Memory_st* restrict)MEM_BASEADDR)
 
-  inline volatile u32 get_config(void *config_base, u32 offset){
+  volatile u32 get_config(void *config_base, u32 offset){
     return *(volatile u32 *)(config_base + offset*4);
   }
 
-  inline void set_config(void *config_base, u32 offset, u32 data){	
+  void set_config(void *config_base, u32 offset, u32 data){	
     *(volatile u32 *restrict)(config_base + offset*4) = data;
   }
 #endif
@@ -85,7 +85,7 @@ extern EXT_C void *get_mp(){
 #else
 
 u32 addr_64to32 (void* addr){
-  return (u32)addr;
+  return (u32)((u64)addr);
 }
 #endif
 

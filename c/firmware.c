@@ -6,7 +6,7 @@ typedef struct {
 } Memory_st;
 
 #define MEM_BASEADDR    0x20000000
-#define CONFIG_BASEADDR 0x30000000
+#define CONFIG_BASEADDR 0xA0000000
 #define A_START         0x0
 #define A_MM2S_DONE     0x1
 #define A_MM2S_ADDR     0x2

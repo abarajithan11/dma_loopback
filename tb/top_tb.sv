@@ -91,7 +91,7 @@ module top_tb;
   int file_inp;
   bit [7:0] arr_inp [`BYTES];
   initial begin
-    file_inp = $fopen({`TO_STRING(`DIR), "input.bin"}, "wb");
+    file_inp = $fopen({`TO_STRING(`DIR), "/input.bin"}, "wb");
     if (file_inp==0) $fatal(0, "Error: Failed to open file.");
     for (int i = 0; i < `BYTES; i++)
       $fwrite(file_inp, "%c", 8'($urandom_range(0, 255)));
@@ -111,8 +111,8 @@ module top_tb;
 
 
     // Read from output & expected and compare
-    file_out = $fopen({`TO_STRING(`DIR), "output.bin"}, "rb");
-    file_exp = $fopen({`TO_STRING(`DIR), "input.bin" }, "rb");
+    file_out = $fopen({`TO_STRING(`DIR), "/output.bin"}, "rb");
+    file_exp = $fopen({`TO_STRING(`DIR), "/input.bin" }, "rb");
     if (file_out==0 || file_exp==0) $fatal(0, "Error: Failed to open output/expected file(s).");
 
     for (int i = 0; i < `BYTES; i++) begin

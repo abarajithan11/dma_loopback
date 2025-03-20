@@ -26,11 +26,9 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
     char f_path [1000];
     int bytes;
 
-    printf("DIR:%s", TO_STRING(DIR));
-
     WAIT_INIT(DMA_WAIT);
 
-    sprintf(f_path, "%sinput.bin", TO_STRING(DIR));
+    sprintf(f_path, "%s/input.bin", TO_STRING(DIR));
     fp = fopen(f_path, "rb");
     debug_printf("DEBUG: Reading from file %s \n", f_path);
     if(!fp) debug_printf("ERROR! File not found: %s \n", f_path);
@@ -49,7 +47,7 @@ extern EXT_C u8 dma_loopback(Memory_st *restrict mp, void *p_config) {
   WAIT(!(get_config(p_config, A_S2MM_DONE) && get_config(p_config, A_MM2S_DONE)), DMA_WAIT);
 
   #ifdef SIM
-    sprintf(f_path, "%soutput.bin", TO_STRING(DIR));
+    sprintf(f_path, "%s/output.bin", TO_STRING(DIR));
     fp = fopen(f_path, "wb");
     debug_printf("DEBUG: Writing to file %s \n", f_path);
     if(!fp) debug_printf("ERROR! File not found: %s \n", f_path);
